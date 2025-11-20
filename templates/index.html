@@ -49,23 +49,68 @@
 
 <!-- Movement Controls -->
 <form method="POST">
-    <button name="move" value="forward">⬆ Forward</button>
-    <button name="move" value="reverse">⬇ Reverse</button>
-    <button name="move" value="rotate">⟳ Rotate</button>
+    
+    
+    <button name="move" value="rotate_ccw">Rotate CCW ⟲</button>
+    <button name="move" value="rotate_cw">Rotate CW ⟳</button>
+
+    <button name="move" value="forward">Forward</button>
+    <button name="move" value="reverse">Reverse</button>
+
 </form>
 
 <hr>
 
 <!-- Resize Form -->
 <form method="POST">
-    <label>Length:</label>
-    <input type="number" name="length" value="{{ pos.length }}"><br>
+    
 
-    <label>Width:</label>
-    <input type="number" name="width" value="{{ pos.width }}"><br>
+    <input type="number" name="length" value="{{ pos.length }}">
+    <input type="number" name="width" value="{{ pos.width }}">
+    <button name="move" value="resize">Resize</button>
 
-    <button name="move" value="resize">Apply Size</button>
 </form>
+
+
+<script>
+    document.addEventListener("keydown", function(event) {
+
+        // Forward = F key
+        if (event.key === "f" || event.key === "F") {
+            sendMove("forward");
+        }
+
+        // Reverse = R key
+        if (event.key === "r" || event.key === "R") {
+            sendMove("reverse");
+        }
+
+        // Rotate Counter-Clockwise = Left Arrow
+        if (event.key === "ArrowLeft") {
+            sendMove("rotate_ccw");
+        }
+
+        // Rotate Clockwise = Right Arrow
+        if (event.key === "ArrowRight") {
+            sendMove("rotate_cw");
+        }
+    });
+
+    function sendMove(action) {
+        const form = document.createElement("form");
+        form.method = "POST";
+
+        const input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "move";
+        input.value = action;
+
+        form.appendChild(input);
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+
 
 </body>
 </html>
